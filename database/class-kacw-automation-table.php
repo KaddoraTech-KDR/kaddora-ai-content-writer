@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-class KACW_Templates_Table
+class KACW_Automation_Table
 {
 
   public function create()
@@ -9,7 +9,7 @@ class KACW_Templates_Table
 
     global $wpdb;
 
-    $table = $wpdb->prefix . 'kacw_templates';
+    $table = $wpdb->prefix . 'kacw_automation';
 
     $charset = $wpdb->get_charset_collate();
 
@@ -17,6 +17,7 @@ class KACW_Templates_Table
             id BIGINT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255),
             prompt TEXT,
+            status VARCHAR(20) DEFAULT 'active',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         ) $charset;";
 
