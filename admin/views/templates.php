@@ -5,56 +5,96 @@ $table = $wpdb->prefix . 'kacw_templates';
 $rows = $wpdb->get_results("SELECT * FROM $table ORDER BY id DESC");
 ?>
 
-<div class="wrap">
+<?php if (!defined('ABSPATH')) exit;
 
-  <h1>Templates</h1>
+global $wpdb;
+$table = $wpdb->prefix . 'kacw_templates';
+$rows = $wpdb->get_results("SELECT * FROM $table ORDER BY id DESC");
+?>
 
-  <!-- ADD TEMPLATE -->
-  <h2>Add New Template</h2>
+<div class="kacw-dashboard">
 
-  <input type="text" id="kacw-temp-title" placeholder="Template Title" style="width:300px;">
-  <br><br>
+  <!-- HEADER -->
+  <div class="kacw-header">
+    <h1>Templates</h1>
+    <p>Create and manage reusable AI templates</p>
+  </div>
 
-  <textarea id="kacw-temp-prompt" placeholder="Template Prompt..." style="width:100%; height:100px;"></textarea>
+  <!-- ADD TEMPLATE CARD -->
+  <div class="kacw-card">
+    <div class="kacw-card-inner">
 
-  <br><br>
+      <h3>Add New Template</h3>
 
-  <button class="button button-primary" id="kacw-save-template">Save Template</button>
+      <div class="kacw-field">
+        <label>Template Title</label>
+        <input type="text" id="kacw-temp-title" placeholder="Enter template title">
+      </div>
 
-  <hr>
+      <div class="kacw-field" style="margin-top:15px;">
+        <label>Template Prompt</label>
+        <textarea id="kacw-temp-prompt" placeholder="Write your template prompt..."></textarea>
+      </div>
 
-  <!-- LIST -->
-  <h2>Saved Templates</h2>
+      <div class="kacw-actions">
+        <button class="button button-primary" id="kacw-save-template">
+          Save Template
+        </button>
+      </div>
 
-  <table class="widefat striped">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Prompt</th>
-        <th>Use</th>
-      </tr>
-    </thead>
+    </div>
+  </div>
 
-    <tbody>
-      <?php if ($rows): ?>
-        <?php foreach ($rows as $row): ?>
-          <tr>
-            <td><?php echo esc_html($row->title); ?></td>
-            <td><?php echo esc_html(wp_trim_words($row->prompt, 15)); ?></td>
-            <td>
-              <button class="button kacw-use-template"
-                data-prompt="<?php echo esc_attr($row->prompt); ?>">
-                Use
-              </button>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <tr>
-          <td colspan="3">No templates found</td>
-        </tr>
-      <?php endif; ?>
-    </tbody>
-  </table>
+  <!-- LIST CARD -->
+  <div class="kacw-card">
+    <div class="kacw-card-inner">
+
+      <h3>Saved Templates</h3>
+
+      <div class="kacw-table-wrap">
+
+        <table class="kacw-table striped">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Prompt</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <?php if ($rows): ?>
+              <?php foreach ($rows as $row): ?>
+                <tr>
+                  <td class="kacw-title">
+                    <?php echo esc_html($row->title); ?>
+                  </td>
+
+                  <td class="kacw-content">
+                    <?php echo esc_html(wp_trim_words($row->prompt, 15)); ?>
+                  </td>
+
+                  <td>
+                    <button class="button kacw-use-template"
+                      data-prompt="<?php echo esc_attr($row->prompt); ?>">
+                      Use
+                    </button>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="3" class="kacw-empty">
+                  No templates found
+                </td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+  </div>
 
 </div>
